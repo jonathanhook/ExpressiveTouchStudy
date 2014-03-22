@@ -13,23 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ExpressiveTouchStudy
+namespace ExpressiveTouchStudy.Study_Pages
 {
     /// <summary>
-    /// Interaction logic for TwistingTouch.xaml
+    /// Interaction logic for Finished.xaml
     /// </summary>
-    public partial class TwistingTouch : Page
+    public partial class Finished : Page
     {
-        public TwistingTouch()
+        public Finished()
         {
             InitializeComponent();
-            this.TaskButton.Click += TaskButton_Click;
-        }
-
-        void TaskButton_Click(object sender, RoutedEventArgs e)
-        {
-            Page next = StudyManager.GetInstance().GetNextCondition();
-            this.NavigationService.Navigate(next);
         }
     }
 }

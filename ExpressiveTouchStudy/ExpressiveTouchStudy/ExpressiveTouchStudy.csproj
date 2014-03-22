@@ -53,11 +53,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Study Pages\BeginPage.xaml.cs">
+      <DependentUpon>BeginPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Study Pages\DirectionOfApproach.xaml.cs">
       <DependentUpon>DirectionOfApproach.xaml</DependentUpon>
     </Compile>
     <Compile Include="Study Pages\FingerAngle.xaml.cs">
       <DependentUpon>FingerAngle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Study Pages\Finished.xaml.cs">
+      <DependentUpon>Finished.xaml</DependentUpon>
     </Compile>
     <Compile Include="Study Pages\ImpactForce.xaml.cs">
       <DependentUpon>ImpactForce.xaml</DependentUpon>
@@ -76,11 +82,19 @@
     <Compile Include="Study Pages\VelocityOfTouchUp.xaml.cs">
       <DependentUpon>VelocityOfTouchUp.xaml</DependentUpon>
     </Compile>
+    <Page Include="Study Pages\BeginPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Study Pages\DirectionOfApproach.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Study Pages\FingerAngle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Study Pages\Finished.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

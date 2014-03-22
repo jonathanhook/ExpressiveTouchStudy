@@ -20,9 +20,45 @@ namespace ExpressiveTouchStudy
     /// </summary>
     public partial class DirectionOfApproach : Page
     {
+        public DateTime started;
+
         public DirectionOfApproach()
         {
             InitializeComponent();
+
+            this.Loaded += DirectionOfApproach_Loaded;
+            this.Task_Button.Click += Task_Button_Click;
+        }
+
+        private void Task_Button_Click(object sender, RoutedEventArgs e)
+        {
+            StudyManager manager = StudyManager.GetInstance();
+
+            // TODO: get direction detected for the touch
+            float direction = 0.0f;
+
+            // TODO: work out if force within the correct range
+            bool success = true;
+
+            string[] data = new string[1];
+            data[0] = direction.ToString();
+
+            TimeSpan duration = DateTime.UtcNow - started;
+
+            manager.LogTrial(duration, success, data);
+
+            Page next = manager.GetNextCondition();
+            NavigationService.Navigate(next);
+        }
+
+        private void DirectionOfApproach_Loaded(object sender, RoutedEventArgs e)
+        {
+            string condition = StudyManager.GetInstance().Condition;
+
+            string label = string.Format("Press the button, approaching form the following direction: {0}", condition);
+            Instructions_Label.Text = label;
+
+            started = DateTime.UtcNow;
         }
     }
 }

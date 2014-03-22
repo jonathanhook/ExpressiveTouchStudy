@@ -1,18 +1,20 @@
-﻿<Page x:Class="ExpressiveTouchStudy.QuiveringFinger"
+﻿<Page x:Class="ExpressiveTouchStudy.Study_Pages.BeginPage"
       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
-	Title="QuiveringFinger">
+	Title="BeginPage">
 
     <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
+            <RowDefinition />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Name="Instructions_Label" FontSize="18" Margin="25" TextWrapping="Wrap">Testing</TextBlock>
-        <Button Grid.Row="1" Name="Task_Button" Padding="25" Width="100" Height="100">Press</Button>
+        <TextBlock Grid.Row="0" Name="Title_TextBlock" FontSize="32" TextAlignment="Center"></TextBlock>
+        <TextBlock Grid.Row="1" Name="Begin_TextBlock" TextWrapping="Wrap" Margin="25"></TextBlock>
+        <Button Name="Begin_Button" Grid.Row="2" Width="100" Height="50">Begin</Button>
     </Grid>
 </Page>

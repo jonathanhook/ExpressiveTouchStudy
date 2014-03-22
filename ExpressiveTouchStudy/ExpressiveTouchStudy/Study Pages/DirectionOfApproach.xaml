@@ -6,7 +6,12 @@
       mc:Ignorable="d" 
       d:DesignHeight="300" d:DesignWidth="300"
 	Title="DirectionOfApproach">
-    <Grid>
-        
+    <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Name="Instructions_Label" FontSize="18" Margin="25" TextWrapping="Wrap">Testing</TextBlock>
+        <Button Grid.Row="1" Name="Task_Button" Padding="25" Width="100" Height="100">Press</Button>
     </Grid>
 </Page>

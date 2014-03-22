@@ -1,10 +1,12 @@
-﻿using System;
+﻿using ExpressiveTouchStudy.Study_Pages;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 
 namespace ExpressiveTouchStudy
 {
@@ -25,16 +27,19 @@ namespace ExpressiveTouchStudy
         private static StudyManager instance = null;
 
         public int Id { get; private set; }
+        public string SensorPosition { get; private set; }
         public StudyLogFileWriter Log { get; private set; }
         public List<InteractionTechnique> InteractionTechniques;
         public int InteractionTechniqueCount { get; private set; }
         public List<KeyValuePair<string, int>> ConditionCounts { get; private set; }
         public string Condition { get; private set; }
         public int TrialCount { get; private set; }
+        public bool ShowingBeginPage;
+        public bool StudyComplete { get; private set; }
 
-        public static StudyManager CreateInstance(int id)
+        public static StudyManager CreateInstance(int id, string sensorPosition)
         {
-            instance = new StudyManager(id);
+            instance = new StudyManager(id, sensorPosition);
             return instance;
         }
 
@@ -48,12 +53,15 @@ namespace ExpressiveTouchStudy
             return instance;
         }
 
-        private StudyManager(int id)
+        private StudyManager(int id, string sensorPosition)
         {
             this.Id = id;
+            this.SensorPosition = sensorPosition;
 
             InteractionTechniqueCount = 0;
             TrialCount = -1;
+            ShowingBeginPage = true;
+            StudyComplete = false;
 
             Log = new StudyLogFileWriter(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ExpressiveTouch"), string.Format("{0}.csv", id));
             
@@ -63,7 +71,7 @@ namespace ExpressiveTouchStudy
 
         public void LogTrial(TimeSpan duration, bool success, string[] data)
         {
-            Log.WriteLine(Id, TrialCount, GetCurrentTechnique().name, Condition, 0, duration, success, data);
+            Log.WriteLine(Id, TrialCount, GetCurrentTechnique().name, Condition, SensorPosition, duration, success, data);
         }
 
         public Page GetNextCondition()
@@ -71,56 +79,79 @@ namespace ExpressiveTouchStudy
             if (ConditionCounts.Count == 0)
             {
                 Next();
+                ShowingBeginPage = true;
             }
 
-            InteractionTechnique current = GetCurrentTechnique();
-            bool found = false;
-            while (!found)
+            if(ShowingBeginPage)
             {
-                Random rand = new Random(DateTime.UtcNow.Millisecond);
-                int conditionId = rand.Next(0, current.conditions.Length);
-                string condition = current.conditions[conditionId];
+                ShowingBeginPage = false;
+                return new BeginPage();
+            }
 
-                for(int i = 0; i < ConditionCounts.Count; i++)
+            InteractionTechnique? current = GetCurrentTechnique();
+            if (!current.HasValue)
+            {
+                return new Finished();
+            }
+            else
+            {
+                bool found = false;
+                List<int> tried = new List<int>();
+
+                while (!found)
                 {
-                    KeyValuePair<string, int> c = ConditionCounts[i];
-                    if (c.Key == condition)
+                    Random rand = new Random(DateTime.UtcNow.Second);
+                    int conditionId = rand.Next(0, current.Value.conditions.Length);
+
+                    if (!tried.Contains(conditionId))
                     {
-                        Condition = condition;
-                        ConditionCounts.Remove(c);
+                        tried.Add(conditionId);
+                        string condition = current.Value.conditions[conditionId];
 
-                        if(c.Value + 1 < Properties.Settings.Default.TrialsPerCondition)
+                        for (int i = 0; i < ConditionCounts.Count; i++)
                         {
-                            ConditionCounts.Add(new KeyValuePair<string, int>(c.Key, c.Value + 1));
-                        }
+                            KeyValuePair<string, int> c = ConditionCounts[i];
+                            if (c.Key == condition)
+                            {
+                                Condition = condition;
+                                ConditionCounts.Remove(c);
 
-                        found = true;
-                        break;
+                                if (c.Value + 1 < Properties.Settings.Default.TrialsPerCondition)
+                                {
+                                    ConditionCounts.Add(new KeyValuePair<string, int>(c.Key, c.Value + 1));
+                                }
+
+                                found = true;
+                                break;
+                            }
+                        }
                     }
                 }
-            }
 
-            TrialCount++;
-            return GetPageFromCurrentTechnique();
+                TrialCount++;
+                return GetPageFromCurrentTechnique();
+            }
         }
 
         private void SetupConditionCounters()
         {
-            InteractionTechnique current = GetCurrentTechnique();
-            ConditionCounts = new List<KeyValuePair<string, int>>();
-
-            foreach (string s in current.conditions)
+            InteractionTechnique? current = GetCurrentTechnique();
+            if (current.HasValue)
             {
-                KeyValuePair<string, int> conditionCounter = new KeyValuePair<string, int>(s, 0);
-                ConditionCounts.Add(conditionCounter);
+                ConditionCounts = new List<KeyValuePair<string, int>>();
+
+                foreach (string s in current.Value.conditions)
+                {
+                    KeyValuePair<string, int> conditionCounter = new KeyValuePair<string, int>(s, 0);
+                    ConditionCounts.Add(conditionCounter);
+                }
             }
         }
 
-        private InteractionTechnique GetCurrentTechnique()
+        public InteractionTechnique GetCurrentTechnique()
         {
             if (InteractionTechniqueCount >= InteractionTechniques.Count)
             {
-                // end study
                 Environment.Exit(0);
             }
 
@@ -167,7 +198,7 @@ namespace ExpressiveTouchStudy
 
         private void ParseStudyConfigFile()
         {
-            string studyConfigFile = Properties.Settings.Default.InteractionTechniques_Debug;
+            string studyConfigFile = Properties.Settings.Default.InteractionTechniques;
             InteractionTechniques = new List<InteractionTechnique>();
             
             string[] techniques = studyConfigFile.Split(';');
@@ -185,7 +216,7 @@ namespace ExpressiveTouchStudy
                 }
             }
 
-            Random rnd = new Random(DateTime.UtcNow.Millisecond);
+            Random rnd = new Random(DateTime.UtcNow.Second);
             InteractionTechniques = InteractionTechniques.OrderBy(x => rnd.Next()).ToList();
         }
     }

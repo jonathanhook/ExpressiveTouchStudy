@@ -25,9 +25,9 @@ namespace ExpressiveTouchStudy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\"ImpactForce:Hard,Normal,Soft; VelocityTouchUp:Fast,Normal,Slow;DirectionOfApproa" +
-            "ch:Above,Below,Left,Right;FingerAngle:High,Normal,Flat;TwistingTouch:Default;Qui" +
-            "veringFinger:Default;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("ImpactForce:Hard,Normal,Soft;VelocityTouchUp:Fast,Normal,Slow;DirectionOfApproach" +
+            ":Above,Below,Left,Right;FingerAngle:High,Normal,Flat;TwistingTouch:Default;Quive" +
+            "ringFinger:Default;")]
         public string InteractionTechniques {
             get {
                 return ((string)(this["InteractionTechniques"]));
@@ -51,7 +51,7 @@ namespace ExpressiveTouchStudy.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("VelocityTouchUp:Fast,Normal,Slow;")]
+        [global::System.Configuration.DefaultSettingValueAttribute("TwistingTouch:Default;")]
         public string InteractionTechniques_Debug {
             get {
                 return ((string)(this["InteractionTechniques_Debug"]));

@@ -27,15 +27,17 @@ namespace ExpressiveTouchStudy
 
         private void Start_Button_Click_1(object sender, RoutedEventArgs e)
         {
+            string sensorPosition = SensorPosition_ComboBox.Text;
+ 
             int id;
-            if (int.TryParse(ParticipantId_TextBox.Text, out id))
+            if (int.TryParse(ParticipantId_TextBox.Text, out id) && sensorPosition != "")
             {
-                StudyManager manager = StudyManager.CreateInstance(id);
+                StudyManager manager = StudyManager.CreateInstance(id, sensorPosition);
                 NavigationService.Navigate(manager.GetNextCondition());
             }
             else
             {
-                MessageBox.Show("Please enter a participant ID");
+                MessageBox.Show("Please enter a participant ID and select a sensor position");
             }
         }
     }

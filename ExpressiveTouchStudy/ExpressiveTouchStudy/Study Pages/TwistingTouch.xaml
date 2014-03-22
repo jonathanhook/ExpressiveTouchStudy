@@ -8,6 +8,6 @@
 	Title="TwistingTouch">
 
     <Grid>
-        
+        <Button Name="TaskButton">Not implemented yet, click next to continue</Button>
     </Grid>
 </Page>

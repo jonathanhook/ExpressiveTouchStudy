@@ -3,13 +3,13 @@
   <Profiles />
   <Settings>
     <Setting Name="InteractionTechniques" Type="System.String" Scope="User">
-      <Value Profile="(Default)">"ImpactForce:Hard,Normal,Soft; VelocityTouchUp:Fast,Normal,Slow;DirectionOfApproach:Above,Below,Left,Right;FingerAngle:High,Normal,Flat;TwistingTouch:Default;QuiveringFinger:Default;</Value>
+      <Value Profile="(Default)">ImpactForce:Hard,Normal,Soft;VelocityTouchUp:Fast,Normal,Slow;DirectionOfApproach:Above,Below,Left,Right;FingerAngle:High,Normal,Flat;TwistingTouch:Default;QuiveringFinger:Default;</Value>
     </Setting>
     <Setting Name="TrialsPerCondition" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">10</Value>
     </Setting>
     <Setting Name="InteractionTechniques_Debug" Type="System.String" Scope="User">
-      <Value Profile="(Default)">VelocityTouchUp:Fast,Normal,Slow;</Value>
+      <Value Profile="(Default)">TwistingTouch:Default;</Value>
     </Setting>
   </Settings>
 </SettingsFile>
