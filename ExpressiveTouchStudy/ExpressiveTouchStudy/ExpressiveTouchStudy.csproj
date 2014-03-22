@@ -53,11 +53,41 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Start.xaml.cs">
+    <Compile Include="Study Pages\DirectionOfApproach.xaml.cs">
+      <DependentUpon>DirectionOfApproach.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Study Pages\FingerAngle.xaml.cs">
+      <DependentUpon>FingerAngle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Study Pages\ImpactForce.xaml.cs">
+      <DependentUpon>ImpactForce.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Study Pages\QuiveringFinger.xaml.cs">
+      <DependentUpon>QuiveringFinger.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Study Pages\Start.xaml.cs">
       <DependentUpon>Start.xaml</DependentUpon>
     </Compile>
     <Compile Include="StudyLogFileWriter.cs" />
     <Compile Include="StudyManager.cs" />
+    <Compile Include="Study Pages\TwistingTouch.xaml.cs">
+      <DependentUpon>TwistingTouch.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Study Pages\VelocityOfTouchUp.xaml.cs">
+      <DependentUpon>VelocityOfTouchUp.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Study Pages\DirectionOfApproach.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Study Pages\FingerAngle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Study Pages\ImpactForce.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -70,7 +100,19 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Start.xaml">
+    <Page Include="Study Pages\QuiveringFinger.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Study Pages\Start.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Study Pages\TwistingTouch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Study Pages\VelocityOfTouchUp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

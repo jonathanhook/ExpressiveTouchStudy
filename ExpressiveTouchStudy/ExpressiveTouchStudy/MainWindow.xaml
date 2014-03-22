@@ -1,7 +1,7 @@
 ﻿<NavigationWindow x:Class="ExpressiveTouchStudy.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Source="Start.xaml"
+        Source="Study Pages/Start.xaml"
         ShowsNavigationUI="False"
         Title="MainWindow" Height="350" Width="525">
 </NavigationWindow>

@@ -31,7 +31,7 @@ namespace ExpressiveTouchStudy
             if (int.TryParse(ParticipantId_TextBox.Text, out id))
             {
                 StudyManager manager = StudyManager.CreateInstance(id);
-                NavigationService.Navigate(manager.GetPageFromCurrentTechnique());
+                NavigationService.Navigate(manager.GetNextCondition());
             }
             else
             {

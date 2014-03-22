@@ -28,6 +28,9 @@ namespace ExpressiveTouchStudy
         public StudyLogFileWriter Log { get; private set; }
         public List<InteractionTechnique> InteractionTechniques;
         public int InteractionTechniqueCount { get; private set; }
+        public List<KeyValuePair<string, int>> ConditionCounts { get; private set; }
+        public string Condition { get; private set; }
+        public int TrialCount { get; private set; }
 
         public static StudyManager CreateInstance(int id)
         {
@@ -50,31 +53,121 @@ namespace ExpressiveTouchStudy
             this.Id = id;
 
             InteractionTechniqueCount = 0;
+            TrialCount = -1;
+
             Log = new StudyLogFileWriter(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "ExpressiveTouch"), string.Format("{0}.csv", id));
             
             ParseStudyConfigFile();
+            SetupConditionCounters();
         }
 
-        public InteractionTechnique GetCurrentTechnique()
+        public void LogTrial(TimeSpan duration, bool success, string[] data)
         {
+            Log.WriteLine(Id, TrialCount, GetCurrentTechnique().name, Condition, 0, duration, success, data);
+        }
+
+        public Page GetNextCondition()
+        {
+            if (ConditionCounts.Count == 0)
+            {
+                Next();
+            }
+
+            InteractionTechnique current = GetCurrentTechnique();
+            bool found = false;
+            while (!found)
+            {
+                Random rand = new Random(DateTime.UtcNow.Millisecond);
+                int conditionId = rand.Next(0, current.conditions.Length);
+                string condition = current.conditions[conditionId];
+
+                for(int i = 0; i < ConditionCounts.Count; i++)
+                {
+                    KeyValuePair<string, int> c = ConditionCounts[i];
+                    if (c.Key == condition)
+                    {
+                        Condition = condition;
+                        ConditionCounts.Remove(c);
+
+                        if(c.Value + 1 < Properties.Settings.Default.TrialsPerCondition)
+                        {
+                            ConditionCounts.Add(new KeyValuePair<string, int>(c.Key, c.Value + 1));
+                        }
+
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            TrialCount++;
+            return GetPageFromCurrentTechnique();
+        }
+
+        private void SetupConditionCounters()
+        {
+            InteractionTechnique current = GetCurrentTechnique();
+            ConditionCounts = new List<KeyValuePair<string, int>>();
+
+            foreach (string s in current.conditions)
+            {
+                KeyValuePair<string, int> conditionCounter = new KeyValuePair<string, int>(s, 0);
+                ConditionCounts.Add(conditionCounter);
+            }
+        }
+
+        private InteractionTechnique GetCurrentTechnique()
+        {
+            if (InteractionTechniqueCount >= InteractionTechniques.Count)
+            {
+                // end study
+                Environment.Exit(0);
+            }
+
             return InteractionTechniques[InteractionTechniqueCount];
         }
 
-        public void Next()
+        private void Next()
         {
             InteractionTechniqueCount = InteractionTechniqueCount + 1;
+            SetupConditionCounters();
         }
 
-        public Page GetPageFromCurrentTechnique()
+        private Page GetPageFromCurrentTechnique()
         {
             string name = GetCurrentTechnique().name;
+
+            if (name == "ImpactForce")
+            {
+                return new ImpactForce();
+            }
+            else if (name == "VelocityTouchUp")
+            {
+                return new VelocityOfTouchUp();
+            }
+            else if (name == "DirectionOfApproach")
+            {
+                return new DirectionOfApproach();
+            }
+            else if (name == "FingerAngle")
+            {
+                return new FingerAngle();
+            }
+            else if (name == "TwistingTouch")
+            {
+                return new TwistingTouch();
+            }
+            else if (name == "QuiveringFinger")
+            {
+                return new QuiveringFinger();
+            }
 
             return null;
         }
 
         private void ParseStudyConfigFile()
         {
-            string studyConfigFile = Properties.Settings.Default.InteractionTechniques;
+            string studyConfigFile = Properties.Settings.Default.InteractionTechniques_Debug;
             InteractionTechniques = new List<InteractionTechnique>();
             
             string[] techniques = studyConfigFile.Split(';');

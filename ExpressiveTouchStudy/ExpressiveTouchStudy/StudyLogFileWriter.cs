@@ -16,9 +16,9 @@ namespace ExpressiveTouchStudy
             CreateFile(path, filename);   
         }
 
-        public void WriteLine(int participantId, int taskNumber, int interactionTechnique, int condition, int sensorPosition, TimeSpan duration, bool success, string[] data)
+        public void WriteLine(int participantId, int taskNumber, string interactionTechnique, string condition, int sensorPosition, TimeSpan duration, bool success, string[] data)
         {
-            string line = string.Format("{0},{1},{2},{3},{4},{5},{6}", participantId, taskNumber, interactionTechnique, condition, sensorPosition, duration);
+            string line = string.Format("{0},{1},{2},{3},{4},{5},{6}", participantId, taskNumber, interactionTechnique, condition, sensorPosition, duration, success);
             
             foreach (string s in data)
             {
@@ -45,7 +45,7 @@ namespace ExpressiveTouchStudy
                 fullPath = Path.Combine(path, DateTime.UtcNow.Millisecond + "_" + filename);
             }
 
-            File.Create(fullPath);
+            //File.Create(fullPath);
             logFileName = fullPath;
         }
     }
